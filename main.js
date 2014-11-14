@@ -7,7 +7,7 @@ var context;                    //= canvas.getContext('2d');
 var number_of_server = 3;           //サーバー数
 var arriving_rate = 46;              //到着率
 var management = 12;                 //処理能力
-                      //その時々のいる人数の状態を格納
+$.cookie("field");                      //その時々のいる人数の状態を格納
 var count = 0;
 
 function onButtonClick(){
@@ -17,14 +17,14 @@ function onButtonClick(){
     management = document.form.management.value;
     //$.cookie("field") = $.cookie("field");
     //alert(number_of_server);
-    //location.href = "http://www9.plala.or.jp/oyoyon/html/script/href.html";
     clearTimeout(default_action);
     update($.cookie("field"));
 }
 
 
 window.onload = function(){
-    $.cookie("field") = 0;
+    var field = 0;
+    $.cookie("field",field);
     canvas = document.getElementById('world'); // canvas要素を取得
     canvas.width = canvas.height = SCREEN_SIZE; // キャンバスのサイズを設定
     var scaleRate = Math.min(window.innerHeight/SCREEN_SIZE, window.innerHeight/SCREEN_SIZE); // Canvas引き伸ばし率の取得
@@ -39,10 +39,14 @@ function update(){
     //alert(number_of_server);
     console.log($.cookie("field"));
     console.log(number_of_server);
+    field = $.cookie("field");
     var new_coming = -(arriving_rate)*Math.log(Math.random());　//単位時間に新たに来る人
     var per_manage_number = -(management)*Math.log(Math.random()); //単位時間に一つのサーバで処理できる人数
-    $.cookie("field") = $.cookie("field") + new_coming - (number_of_server * per_manage_number); //$.cookie("field")の更新
-    if($.cookie("field")<0){
+    field = field + new_coming - (number_of_server * per_manage_number);
+    console.log(field);
+    $.removeCookie("field");
+    $.cookie("field",field); //$.cookie("field")の更新
+    if($.cookie("field")<=0){
         $.cookie("field",0);
     }
     draw();

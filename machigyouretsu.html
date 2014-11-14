@@ -1,7 +1,24 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
     <title>待ち行列シュミレーター</title>
+    <script type="text/javascript" src="/Users/itokoudai/Documents/PSI関連/machigyouretsu/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="/Users/itokoudai/Documents/PSI関連/machigyouretsu/jquery.cookie.js"></script>
     <script src="main.js"></script>
-    <style>body{background:black;margin:0;padding:0;}</style>
+    <style>body{background:white;margin:0;padding:0;}</style>
+    <form name="form" action="">
+        <div class="form-group">
+            <label for="exampleInputEmail1">サーバー数</label>
+            <input type="number_of_server" name="number_of_server" value="">
+                </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">到着率</label>
+            <input type="arriving_rate"  name="arriving_rate" value="">
+                </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">処理能力</label>
+            <input type="management" name="management" value="">
+                </div>
+            <button type="submit" class="btn btn-default" a href="javascript:onButtonClick()"　onclick="onButtonClick()">反映</button>
+    </form>
     <canvas id="world" style="display:block;margin:auto;"></canvas>
     

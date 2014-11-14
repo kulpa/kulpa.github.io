@@ -14,8 +14,9 @@ function onButtonClick(){
     number_of_server = document.form.number_of_server.value;
     arriving_rate = document.form.arriving_rate.value;
     management = document.form.management.value;
-    alert(number_of_server);
-    location.href = "http://www9.plala.or.jp/oyoyon/html/script/href.html";
+    //alert(number_of_server);
+    //location.href = "http://www9.plala.or.jp/oyoyon/html/script/href.html";
+    update(field);
 }
 
 
@@ -26,7 +27,7 @@ window.onload = function(){
     canvas.style.width = canvas.style.height = SCREEN_SIZE*scaleRate+'px';  // キャンバスを引き伸ばし
     context = canvas.getContext('2d');                // コンテキスト
     context.fillStyle = 'rgb(211, 85, 149)';          // 色
-    update(field);   // ゲームループ開始
+    //update(field);   // ゲームループ開始
 }
 
 
@@ -43,6 +44,11 @@ function update(field){
 }
 
 function draw(field){
+    //alert(number_of_server);
+    console.log("サーバーの数は" + number_of_server);
+    console.log("到着率は" + arriving_rate);
+    console.log("処理能力は" + management);
+    console.log(SCREEN_SIZE);
     context.clearRect(0, 0, SCREEN_SIZE, SCREEN_SIZE); // 画面をクリア
     if(field==0){
         

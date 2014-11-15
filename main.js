@@ -10,14 +10,17 @@ var management = 12.0;                 //処理能力
 var field;                      //その時々のいる人数の状態を格納
 
 function onButtonClick(){
-    number_of_server = document.form.number_of_server.value;
-    alert(document.form.number_of_server.value)
-    arriving_rate = document.form.arriving_rate.value;
-    management = document.form.management.value;
-    //$.cookie("field") = $.cookie("field");
-    //alert(number_of_server);
+    if(document.form.number_of_server.value != ""){
+        number_of_server = parseFloat(document.form.number_of_server.value);
+    }
+    if(document.form.arriving_rate.value != ""){
+        arriving_rate = parseFloat(document.form.arriving_rate.value);
+    }
+    if(document.form.management.value != ""){
+        management = parseFloat(document.form.management.value);
+    }
     clearTimeout(default_action);
-    update($.cookie("field"));
+    update(parseFloat($.cookie("field")));
 }
 
 
@@ -30,58 +33,50 @@ window.onload = function(){
     canvas.style.width = canvas.style.height = SCREEN_SIZE*scaleRate+'px';  // キャンバスを引き伸ばし
     context = canvas.getContext('2d');                // コンテキスト
     context.fillStyle = 'rgb(211, 85, 149)';          // 色
-    update();   // ゲームループ開始
+    update(parseFloat($.cookie("field")));   // ゲームループ開始
 }
 
 
-function update(){
-    //alert(number_of_server);
-    console.log(typeof($.cookie("field")));
-    console.log(typeof(number_of_server));
-    field = $.cookie("field");
+function update(x){
     var new_coming = -(arriving_rate)*Math.log(Math.random());　//単位時間に新たに来る人
     var per_manage_number = -(management)*Math.log(Math.random()); //単位時間に一つのサーバで処理できる人数
-    field = parseFloat(field) + new_coming - (number_of_server * per_manage_number);
-    //console.log(field);
+    x = x + new_coming - (number_of_server * per_manage_number);
     $.removeCookie("field");
-    $.cookie("field",field); //$.cookie("field")の更新
-    if($.cookie("field")<=0){
+    if(x<=0){
         $.cookie("field",0);
+    }else{
+        $.cookie("field",x); //$.cookie("field")の更新
     }
-    draw();
-    default_action = setTimeout(update, 1000/FPS);
+    console.log("サーバーの数は" + number_of_server);
+    console.log("到着率は" + arriving_rate);
+    console.log("処理能力は" + management);
+    console.log("待ち人数は" + Math.round($.cookie("field")));
+    draw(parseFloat($.cookie("field")));
+    default_action = setTimeout(update, 1000/FPS,parseFloat($.cookie("field")));
 }
 
-function draw(){
-    //alert(number_of_server);
-    //console.log("サーバーの数は" + number_of_server);
-    //console.log("到着率は" + arriving_rate);
-    //console.log("処理能力は" + management);
-    //console.log(SCREEN_SIZE);
+function draw(x){
     context.clearRect(0, 0, SCREEN_SIZE, SCREEN_SIZE); // 画面をクリア
-    if($.cookie("field")==0){
+    if(x==0){
         
-    }else if($.cookie("field")<=number_of_server){
-        for (var i=1;i<=$.cookie("field");i++){
+    }else if(x<=number_of_server){
+        for (var i=1;i<=x;i++){
             context.fillRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
             context.strokeRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
         }
         
     }else{
         for (var i=1;i<=number_of_server;i++){
-            //context.fillRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
-            //context.strokeRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
-            //console.log(SCREEN_SIZE/(number_of_server));//正しい結果
-            //console.log(SCREEN_SIZE/(number_of_server+1.0));//変わっちゃう
+            context.fillRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
+            context.strokeRect(0,(SCREEN_SIZE/(number_of_server+1.0))*i,CELL_SIZE,CELL_SIZE);
         }//処理中の人を描画
-        /**
-        for(var j=0;j<Math.ceil(($.cookie("field") - number_of_server)/SIDE_CELLS);j++){
-            for(var i=0;i<($.cookie("field") - number_of_server);i++){
+        for(var j=0;j<Math.ceil((x - number_of_server)/SIDE_CELLS);j++){
+            for(var i=0;i<Math.ceil((x - number_of_server)-j*SIDE_CELLS);i++){
                 context.fillRect(SCREEN_SIZE - CELL_SIZE - j*CELL_SIZE,i*CELL_SIZE,CELL_SIZE,CELL_SIZE);
                 context.strokeRect(SCREEN_SIZE - CELL_SIZE - j*CELL_SIZE,i*CELL_SIZE,CELL_SIZE,CELL_SIZE);
             }
-        }**/
-        
+        }
+        console.log(Math.ceil((x - number_of_server)));
     }
 }
 

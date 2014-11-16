@@ -76,7 +76,13 @@ function draw(x){
                 context.strokeRect(SCREEN_SIZE - CELL_SIZE - j*CELL_SIZE,i*CELL_SIZE,CELL_SIZE,CELL_SIZE);
             }
         }
-        console.log(Math.ceil((x - number_of_server)));
     }
+    console.log(Math.ceil((x - number_of_server)));
+    var field_column = document.getElementById("field_column");
+    var text=document.createTextNode("現在の待ち人数は"　+ Math.round($.cookie("field")) + "人です");
+    if(field_column.childNodes.length != 0){
+        field_column.removeChild(field_column.childNodes[0]);
+    }
+    field_column.appendChild(text);
 }
 

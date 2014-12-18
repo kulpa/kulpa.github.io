@@ -17,15 +17,15 @@
         //ダイアログでファイルが選択された時
         obj1.addEventListener("change",function(evt){
                           
-                              var file = evt.target.files;
-                          
-                              //FileReaderの作成
-                              var reader = new FileReader();
-                              //テキスト形式で読み込む
-                              reader.readAsText(file[0]);
-                              //読込終了後の処理
-                              var text;
-                              reader.onload = function(ev){
+            var file = evt.target.files;
+                    
+            //FileReaderの作成
+            var reader = new FileReader();
+            //テキスト形式で読み込む
+            reader.readAsText(file[0]);
+            //読込終了後の処理
+            var text;
+            reader.onload = function(ev){
                               //テキストエリアに表示する
                               text = reader.result;
                               text = replaceAll(text,/,{.*\}/,"");
@@ -33,23 +33,19 @@
                               var result = text.match(/,[0-9][0-9][0-9]円/);
                               var matchcount = 0;
                               while(result[matchcount] != null){
-                                var changed = result[matchcount].slice(1);
-                                console.log(typeof(result[matchcount]));
-                                console.log(result[matchcount]);
-                                console.log(changed);
-                                text = text.replace(/,[0-9][0-9][0-9]円/,changed);
-                                if(text.match(/,[0-9][0-9][0-9]円/) ==null){
-                                    break;
-                                }
-                                result.push(text.match(/,[0-9][0-9][0-9]円/).toString());
-                                matchcount++;
-                            /**if(matchcount==200){
-                              console.log(text.match(/,[0-9][0-9][0-9]円/));
-                                    break;
-                                }**/
+                                    var changed = result[matchcount].slice(1);
+                                    console.log(typeof(result[matchcount]));
+                                    console.log(result[matchcount]);
+                                    console.log(changed);
+                                    text = text.replace(/,[0-9][0-9][0-9]円/,changed);
+                                    if(text.match(/,[0-9][0-9][0-9]円/) ==null){
+                                        break;
+                                    }
+                              result.push(text.match(/,[0-9][0-9][0-9]円/).toString());
+                              matchcount++;
                               }
-                              document.test.txt.value = text;
-                              }
+            document.test.txt.value = text;
+            }
         },false);
         
         function replaceAll(expression, org, dest){
